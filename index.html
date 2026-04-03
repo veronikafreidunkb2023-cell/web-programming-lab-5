@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>CV - Veronika Freidun</title>
+    <style>
+        body.dark { background: #0a0a0a; color: #e5e7eb; transition: 0.5s; }
+        body.light { background: #fafafa; color: #1a1a1a; transition: 0.5s; }
+        
+        .modal { 
+            display: none; position: fixed; inset: 0; 
+            background: rgba(0,0,0,0.8); align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.active { display: flex; }
+        .modal-content { 
+            background: #111; padding: 30px; border: 1px solid #6c057c; border-radius: 20px; color: white;
+        }
+    
+        .review-card { border: 1px solid #6c057c; padding: 10px; margin: 10px 0; border-radius: 10px; }
+        
+        button#themeToggle { padding: 10px; cursor: pointer; border-radius: 5px; }
+    </style>
+</head>
+<body class="dark">
+
+    <header>
+        <h1>Veronika Freidun</h1>
+        <p><strong>Email:</strong> veronika.kb.2023@lpnu.ua</p>
+        <p><strong>Location:</strong> Lviv, Ukraine</p>
+        <button id="themeToggle">Змінити тему</button>
+    </header>
+
+    <hr>
+
+    <main>
+        <section>
+            <h2>Profile</h2>
+            <p>I am a university student majoring in cybersecurity...</p>
+        </section>
+
+        <section id="reviews">
+            <h2 style="color: #6c057c;">Відгуки роботодавців </h2>
+            <div id="reviews-container">Завантаження...</div>
+        </section>
+    </main>
+
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <h3>Зворотній зв'язок</h3>
+            <form action="https://formspree.io/f/mgoplolr" method="POST">
+                <input type="text" name="name" placeholder="Ім'я" required><br><br>
+                <input type="email" name="email" placeholder="Email" required><br><br>
+                <input type="tel" name="phone" placeholder="Телефон" required><br><br>
+                <textarea name="message" placeholder="Повідомлення" required></textarea><br><br>
+                <button type="submit">Відправити</button>
+                <button type="button" onclick="closeModal()">Закрити</button>
+            </form>
+        </div>
+    </div>
+
+    <footer id="main-footer">
+        <hr>
+        <p id="sys-info" style="font-size: 11px; color: #6c057c; font-family: monospace;"></p>
+        <p>© 2026 Veronika Freidun. Created for Web Programming</p>
+    </footer>
+
+    <script>
+        const info = `Браузер: ${navigator.userAgent} | Платформа: ${navigator.platform}`;
+        localStorage.setItem('os_browser_info', info);
+        document.getElementById('sys-info').innerText = "LocalStorage: " + localStorage.getItem('os_browser_info');
+
+        fetch('https://jsonplaceholder.typicode.com/posts/30/comments')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('reviews-container');
+                container.innerHTML = '';
+                data.forEach(comment => {
+                    container.innerHTML += `
+                        <div class="review-card">
+                            <b>${comment.email}</b>
+                            <p>${comment.body}</p>
+                        </div>`;
+                });
+            });
+
+        setTimeout(() => {
+            document.getElementById('contactModal').classList.add('active');
+        }, 60000); 
+
+        function closeModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('light');
+            document.body.classList.toggle('dark');
+        });
+        const hour = new Date().getHours();
+        if (hour >= 7 && hour < 21) {
+            document.body.className = 'light';
+        } else {
+            document.body.className = 'dark';
+        }
+    </script>
+</body>
+</html>
