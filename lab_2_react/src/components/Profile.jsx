@@ -1,7 +1,7 @@
 export default function Profile() {
   return (
     <section className="mb-8">
-      <h2 className="text-2xl font-bold text-[#6c057c] border-l-4 border-[#6c057c] pl-4 mb-3 uppercase tracking-wider">
+      <h2 className="text-2xl font-bold text-text-[#007bff] border-l-4 border-[#007bff] pl-4 mb-3 uppercase tracking-wider">
         Profile
       </h2>
       <p className="text-gray-300 leading-relaxed italic">
